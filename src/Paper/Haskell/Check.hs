@@ -3,6 +3,7 @@ module Paper.Haskell.Check where
 
 import Paper.Haskell.Fragment
 import Paper.Haskell.Haskell.Provides
+import System.Directory
 import System.Process
 import System.Exit
 import System.IO
@@ -78,6 +79,8 @@ checkCode debug orig = do
 
 
 readFileStrict s = do
+    e <- doesFileExist s
+    putStr $ if not e then "Missing file: " ++ show s else ""
     h <- openFile s ReadMode
     s <- hGetContents h
     length s `seq` hClose h
